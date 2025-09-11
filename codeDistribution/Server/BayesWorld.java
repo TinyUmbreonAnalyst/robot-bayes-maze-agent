@@ -1,3 +1,5 @@
+
+
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JComponent;
@@ -92,6 +94,12 @@ public class BayesWorld extends JFrame {
     
     Random rand;
     
+    /* Creates a new Bayes World simulation
+     * @param fnombre: name of file to create world from (e.g. "mundo_maze.txt")
+     * @param _moveProb: probability the robot moves correctly every turn
+     * @param _sensorAccuracy: probability that the robot's sensor correctly states what's in the four cardinal directions of it
+     * @param _known: string value of whether or not the robot fully knows the map of the location. "known"= true, anything else, false
+     */
     public BayesWorld(String fnombre, double _moveProb, double _sensorAccuracy, String _known) {
         rand = new Random();
     
@@ -303,7 +311,16 @@ public class BayesWorld extends JFrame {
         System.out.println("It took " + numMoves + " moves.");
     }
 
+    //java BayesWorld [filename] [move_probability] [sensor_probability] [known]
     public static void main(String[] args) {
-        new BayesWorld(args[0], Double.parseDouble(args[1]), Double.parseDouble(args[2]), args[3]);
+        if (args.length >= 4) {
+            new BayesWorld(args[0], Double.parseDouble(args[1]), Double.parseDouble(args[2]), args[3]);
+        }
+        else if (args.length == 3){
+            //resort to an unknown world by default
+            new BayesWorld(args[0], Double.parseDouble(args[1]), Double.parseDouble(args[2]), "unknown");
+        } else {
+            System.out.println("Usage: java BayesWorld [filename] [move_probability] [sensor_probability] ([known])");
+        }
     }
 }
